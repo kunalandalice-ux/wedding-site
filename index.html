@@ -6,7 +6,7 @@
   <title>Kunal & Alice — September 1, 2027</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant:ital,wght@1,300;1,400&family=Jost:wght@200;300;400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Cormorant:ital,wght@1,300;1,400&family=Jost:wght@200;300;400&family=Montserrat:wght@300;400&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
 <style>
 /* ── RESET & VARS ─────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -601,44 +601,69 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
 .travel-item h4 { font-family: var(--serif); font-style: italic; font-size: 1.2rem; font-weight: 300; color: var(--prov); margin-bottom: .3rem; }
 .travel-item p { font-family: var(--sans); font-weight: 300; font-size: .82rem; line-height: 1.85; color: var(--fshade); }
 
-/* ── FILM REEL GALLERY ───────────────────────────────────── */
-.film-reel-wrap { position: relative; background: #0d0b08; }
-.film-strip { display: flex; gap: 3px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0 3rem; cursor: grab; user-select: none; background: #0d0b08; align-items: flex-end; }
-.film-strip:active { cursor: grabbing; }
-.film-strip::-webkit-scrollbar { display: none; }
-/* Each frame: sprocket zone (::before) → image → sprocket zone (::after) */
+/* ── POLAROID GALLERY ────────────────────────────────────── */
+/* Wooden table — looking down */
+.polaroid-table {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  justify-content: center;
+  gap: 2rem 2.5rem;
+  padding: 4rem 3rem 5rem;
+  background-color: #8B5E2A;
+  background-image:
+    repeating-linear-gradient(94deg, transparent 0, transparent 9px, rgba(0,0,0,.03) 9px, rgba(0,0,0,.03) 10px, transparent 10px, transparent 26px, rgba(255,190,70,.025) 26px, rgba(255,190,70,.025) 27px, transparent 27px, transparent 48px),
+    repeating-linear-gradient(90deg, transparent 0, transparent 22px, rgba(0,0,0,.045) 22px, rgba(0,0,0,.045) 24px, transparent 24px, transparent 55px, rgba(0,0,0,.03) 55px, rgba(0,0,0,.03) 57px, transparent 57px, transparent 90px),
+    linear-gradient(163deg, #9a6830 0%, #7a4e20 9%, #8e6228 18%, #6a4018 27%, #9a6a32 36%, #7e5224 45%, #8a6028 54%, #704818 63%, #9a6830 72%, #7a4e20 81%, #8B5E2A 90%, #7a5028 100%);
+}
+
+/* Individual polaroid card */
 .gallery-item {
-  flex: 0 0 230px; height: 400px; scroll-snap-align: start;
-  border-radius: 0; background-color: #0d0b08; transform-style: flat;
+  background: #fefcf8;
+  padding: 10px 10px 52px;
+  width: 185px;
+  border-radius: 1px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.15), 0 6px 18px rgba(0,0,0,.28), 0 12px 32px rgba(0,0,0,.15);
+  cursor: pointer;
+  transform: rotate(var(--r, 0deg)) translateY(var(--ty, 0px));
+  transition: transform .4s cubic-bezier(0.34,1.56,0.64,1), box-shadow .35s ease, z-index 0s;
+  position: relative;
+  z-index: 1;
 }
-.gallery-item::before,
-.gallery-item::after {
-  content: '';
+.gallery-item:hover {
+  transform: rotate(0deg) translateY(-18px) scale(1.07);
+  box-shadow: 0 2px 4px rgba(0,0,0,.1), 0 24px 50px rgba(0,0,0,.45), 0 40px 80px rgba(0,0,0,.2);
+  z-index: 20;
+}
+
+/* Photo area inside the polaroid */
+.film-image-area {
+  width: 100%;
+  aspect-ratio: 1;
+  background-size: cover;
+  background-position: center;
   display: block;
-  flex-shrink: 0;
-  height: 36px;
-  background-color: #0d0b08;
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='36'><rect x='8' y='9' width='14' height='18' rx='3' fill='%23b88838'/><rect x='9' y='10' width='12' height='5' rx='1.5' fill='%23d4a84c' opacity='0.45'/></svg>");
-  background-repeat: repeat-x;
-  background-position: left center;
 }
-.gallery-item.tall { height: 490px; }
-.gallery-item.wide { flex: 0 0 420px; height: 360px; }
-.film-frame-num {
-  position: absolute; bottom: 11px; left: 10px;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: .55rem; letter-spacing: .06em;
-  color: rgba(184,136,56,.8); font-weight: 700;
-  white-space: nowrap; pointer-events: none;
+
+/* Handwritten caption at the bottom */
+.polaroid-caption {
+  position: absolute;
+  bottom: 12px; left: 0; right: 0;
+  text-align: center;
+  font-family: 'Caveat', cursive;
+  font-size: 1rem;
+  color: #8a7058;
+  letter-spacing: .02em;
+  pointer-events: none;
 }
-.film-drag-hint { text-align: center; padding: .85rem 0; font-family: 'Courier New', Courier, monospace; font-size: .48rem; letter-spacing: .22em; text-transform: uppercase; color: rgba(184,136,56,.45); background: #0d0b08; }
 
 /* ── LIGHTBOX ─────────────────────────────────────────────── */
 .lightbox { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .35s ease; pointer-events: none; }
 .lightbox.open { opacity: 1; pointer-events: auto; }
 .lb-bg { position: absolute; inset: 0; background: rgba(6,12,5,.94); cursor: pointer; }
-.lb-box { position: relative; z-index: 1; width: 70vw; max-width: 900px; aspect-ratio: 3/2; border-radius: 2px; overflow: hidden; transform: scale(.96); transition: transform .35s var(--ease); }
-.lightbox.open .lb-box { transform: scale(1); }
+.lb-box { position: relative; z-index: 1; background: #fefcf8; padding: 14px 14px 76px; width: min(80vmin, 460px); border-radius: 1px; box-shadow: 0 40px 80px rgba(0,0,0,.7), 0 8px 24px rgba(0,0,0,.4); transform: scale(.88) rotate(-4deg); transition: transform .5s cubic-bezier(0.34,1.56,0.64,1); }
+.lightbox.open .lb-box { transform: scale(1) rotate(0deg); }
+.lb-photo { width: 100%; aspect-ratio: 1; background-size: cover; background-position: center; }
+.lb-caption-text { position: absolute; bottom: 16px; left: 0; right: 0; text-align: center; font-family: 'Caveat', cursive; font-size: 1.4rem; color: #8a7058; }
 .lb-close { position: absolute; top: 1.2rem; right: 1.2rem; z-index: 2; background: none; border: 1px solid rgba(255,255,255,.25); color: rgba(255,255,255,.8); font-size: .95rem; width: 2.4rem; height: 2.4rem; border-radius: 50%; cursor: pointer; transition: all .2s; }
 .lb-close:hover { background: rgba(255,255,255,.1); }
 
@@ -656,9 +681,9 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
 }
 @media (max-width: 600px) {
   .hero-title { flex-direction: column; gap: .05em; align-items: center; }
-  .gallery-item { flex: 0 0 170px; height: 300px; }
-  .gallery-item.tall { height: 380px; }
-  .gallery-item.wide { flex: 0 0 280px; height: 260px; }
+  .polaroid-table { grid-template-columns: repeat(2, auto); gap: 1.2rem; padding: 2.5rem 1.2rem 3rem; }
+  .gallery-item { width: 140px; padding: 8px 8px 44px; }
+  .polaroid-caption { font-size: .85rem; }
   .nav-links { display: none; }
   .hero-countdown { gap: .4rem; }
   .nav-monogram { cursor: pointer; }
@@ -764,13 +789,8 @@ body.night .section-gallery {
 }
 body.night .section-gallery .section-header h2 { color: #D4D9D2; }
 body.night .section-gallery .chapter-label     { color: #FCF1A5; }
-/* Film reel — night mode (slightly cooler dark tone) */
-body.night .film-reel-wrap,
-body.night .film-strip { background: #08080a; }
-body.night .gallery-item,
-body.night .gallery-item::before,
-body.night .gallery-item::after { background-color: #08080a; }
-body.night .film-drag-hint { background: #08080a; }
+/* Polaroids — night mode: moodier, darker table */
+body.night .polaroid-table { filter: brightness(.82) saturate(.85); }
 
 /* ── Details — owns BOTH transitions                        */
 /*    26% fade in/out for smooth gradients.                 */
@@ -1010,18 +1030,15 @@ body.night .footer-accent span:nth-child(2) { background: #3D3356; }
       <h2>Moments We Treasure</h2>
     </div>
   </div>
-  <div class="film-reel-wrap">
-    <div class="film-strip" id="galleryStrip">
-      <div class="gallery-item tall"><div class="film-image-area g1"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 001</span></div>
-      <div class="gallery-item"><div class="film-image-area g2"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 002</span></div>
-      <div class="gallery-item"><div class="film-image-area g3"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 003</span></div>
-      <div class="gallery-item tall"><div class="film-image-area g4"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 004</span></div>
-      <div class="gallery-item wide"><div class="film-image-area g5"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 005</span></div>
-      <div class="gallery-item"><div class="film-image-area g6"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 006</span></div>
-      <div class="gallery-item"><div class="film-image-area g1"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 007</span></div>
-      <div class="gallery-item tall"><div class="film-image-area g2"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 008</span></div>
-    </div>
-    <p class="film-drag-hint">◀ &nbsp; roll the film &nbsp; ▶</p>
+  <div class="polaroid-table">
+    <div class="gallery-item" style="--r:-4deg;  --ty:14px">  <div class="film-image-area g1"></div><span class="polaroid-caption">london, 2020</span></div>
+    <div class="gallery-item" style="--r: 3.5deg; --ty:-6px"> <div class="film-image-area g2"></div><span class="polaroid-caption">year one</span></div>
+    <div class="gallery-item" style="--r:-2deg;  --ty:22px">  <div class="film-image-area g3"></div><span class="polaroid-caption">thailand</span></div>
+    <div class="gallery-item" style="--r: 5deg;  --ty:-2px">  <div class="film-image-area g4"></div><span class="polaroid-caption">azores</span></div>
+    <div class="gallery-item" style="--r:-5.5deg;--ty:10px">  <div class="film-image-area g5"></div><span class="polaroid-caption">road trip</span></div>
+    <div class="gallery-item" style="--r: 2.5deg; --ty:-12px"> <div class="film-image-area g6"></div><span class="polaroid-caption">greece, 2024</span></div>
+    <div class="gallery-item" style="--r:-3deg;  --ty:18px">  <div class="film-image-area g1"></div><span class="polaroid-caption">home</span></div>
+    <div class="gallery-item" style="--r: 4deg;  --ty: 4px">  <div class="film-image-area g2"></div><span class="polaroid-caption">always</span></div>
   </div>
 </section>
 
@@ -1241,7 +1258,10 @@ body.night .footer-accent span:nth-child(2) { background: #3D3356; }
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lb">
   <div class="lb-bg" onclick="closeLb()"></div>
-  <div class="lb-box" id="lbBox"></div>
+  <div class="lb-box" id="lbBox">
+    <div class="lb-photo" id="lbPhoto"></div>
+    <p class="lb-caption-text" id="lbCaption"></p>
+  </div>
   <button class="lb-close" onclick="closeLb()">✕</button>
 </div>
 
@@ -1341,42 +1361,15 @@ if (window.matchMedia('(hover: none)').matches) {
   });
 }
 
-// ── GALLERY — drag to scroll ──────────────────────────────
-const strip = document.getElementById('galleryStrip');
-if (strip) {
-  let isDown = false, startX, scrollLeft;
-  strip.addEventListener('mousedown',  e => { isDown = true; strip.style.cursor = 'grabbing'; startX = e.pageX - strip.offsetLeft; scrollLeft = strip.scrollLeft; });
-  strip.addEventListener('mouseleave', () => { isDown = false; strip.style.cursor = 'grab'; });
-  strip.addEventListener('mouseup',    () => { isDown = false; strip.style.cursor = 'grab'; });
-  strip.addEventListener('mousemove',  e => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - strip.offsetLeft;
-    strip.scrollLeft = scrollLeft - (x - startX) * 1.4;
-  });
-}
 
-// ── GALLERY — 3D perspective tilt ────────────────────────
-document.querySelectorAll('.gallery-item').forEach(card => {
-  card.addEventListener('mousemove', e => {
-    const r = card.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - 0.5;
-    const y = (e.clientY - r.top)  / r.height - 0.5;
-    card.style.transition = 'transform .08s linear';
-    card.style.transform  = `perspective(700px) rotateY(${x * 14}deg) rotateX(${-y * 14}deg) scale(1.04)`;
-  });
-  card.addEventListener('mouseleave', () => {
-    card.style.transition = 'transform .6s cubic-bezier(0.16,1,0.3,1)';
-    card.style.transform  = '';
-  });
-});
-
-// ── LIGHTBOX ─────────────────────────────────────────────
+// ── LIGHTBOX — opens as enlarged polaroid ─────────────────
 const lb = document.getElementById('lb');
 document.querySelectorAll('.gallery-item').forEach(item => {
   item.addEventListener('click', () => {
-    const imgArea = item.querySelector('.film-image-area') || item;
-    document.getElementById('lbBox').style.background = getComputedStyle(imgArea).background;
+    const imgArea   = item.querySelector('.film-image-area') || item;
+    const caption   = item.querySelector('.polaroid-caption')?.textContent || '';
+    document.getElementById('lbPhoto').style.background = getComputedStyle(imgArea).background;
+    document.getElementById('lbCaption').textContent    = caption;
     lb.classList.add('open');
   });
 });
