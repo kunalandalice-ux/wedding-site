@@ -779,32 +779,28 @@ body.night .section-gallery {
   background: linear-gradient(to bottom,
     #2A3A2F  0%,
     #3D3356  8%,
-    #EBDAC1 25%,
-    #EBDAC1 100%
+    #EBDAC1 26%,
+    #EBDAC1 74%,
+    #3D3356 100%
   );
 }
-/* Header sits in the dark zone — keep light text */
+/* Header sits in dark zone at top — light text */
 body.night .section-gallery .section-header h2 { color: #D4D9D2; }
 body.night .section-gallery .chapter-label     { color: #FCF1A5; }
 /* Polaroids — night mode */
 body.night .polaroid-caption { color: #7a6048; }
 
-/* ── Details — owns BOTH transitions                        */
-/*    26% fade in/out for smooth gradients.                 */
-/*    Dark #302A3D text: 5.9:1 contrast on the warm        */
-/*    mid-transition tone — far better than light text was  */
+/* ── Details — pure plum, Gallery owns the cream window     */
 body.night .section-details {
   background: linear-gradient(to bottom,
-    #EBDAC1  0%,
-    #EBDAC1 15%,
-    #3D3356 40%,
+    #3D3356  0%,
     #3D3356 86%,
     #5C6652 100%
   );
 }
-/* Header sits in the cream zone — dark text */
-body.night .section-details .section-header h2 { color: #302A3D; }
-body.night .section-details .chapter-label     { color: #5E3A6A; }
+/* Light text on deep plum */
+body.night .section-details .section-header h2 { color: #D4D9D2; }
+body.night .section-details .chapter-label     { color: #FCF1A5; }
 /* Cards — invitation-on-stone feel */
 body.night .detail-card {
   background: rgba(255,255,255,.88);
