@@ -673,11 +673,11 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
   .details-accordion { margin-top: 2.5rem; }
   .form-row { flex-direction: column; }
   .rsvp-btns { flex-direction: column; }
-  /* Night mobile: give the sticky image block a solid background so its
-     4.5rem padding shows the section colour instead of leaking the gradient */
+  /* Night mobile: remove the sticky block's padding so it doesn't
+     expose the section gradient as a weird colour — keeps sticky behaviour */
   body.night .story-grid-wide > .story-block:first-child,
   body.night .story-grid-wide-r > .story-block:last-child {
-    background: #2A3A2F;
+    padding: 0;
   }
 }
 @media (max-width: 600px) {
