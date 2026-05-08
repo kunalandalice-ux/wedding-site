@@ -374,8 +374,9 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
 .section-header { text-align: center; margin-bottom: 3.5rem; }
 .section-header .chapter-label { color: var(--prov); }
 .section-header h2 { font-family: var(--serif); font-style: italic; font-size: clamp(2.6rem, 5vw, 5rem); font-weight: 300; margin-top: .6rem; color: var(--lav-ash); letter-spacing: -.01em; line-height: 1.05; }
-.gallery-item { position: relative; overflow: hidden; cursor: pointer; background-size: cover; background-position: center; }
-.gallery-shine { position: absolute; inset: 0; background: rgba(255,255,255,.08); opacity: 0; transition: opacity .4s; }
+.gallery-item { position: relative; overflow: hidden; cursor: pointer; display: flex; flex-direction: column; }
+.film-image-area { flex: 1; background-size: cover; background-position: center; position: relative; overflow: hidden; }
+.gallery-shine { position: absolute; inset: 0; background: rgba(255,255,255,.07); opacity: 0; transition: opacity .4s; pointer-events: none; }
 .gallery-item:hover .gallery-shine { opacity: 1; }
 /* Gallery palettes — all drawn from venue colors */
 .g1 { background: linear-gradient(145deg, #1e3018 0%, #3a5828 25%, #6a9050 50%, #a8c880 70%, #c8d8b0 88%, #8aaa68 100%); }
@@ -601,26 +602,36 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
 .travel-item p { font-family: var(--sans); font-weight: 300; font-size: .82rem; line-height: 1.85; color: var(--fshade); }
 
 /* ── FILM REEL GALLERY ───────────────────────────────────── */
-.film-reel-wrap { position: relative; background: #0f0f0f; }
-.film-sprocket-track {
-  height: 34px;
-  background-color: #0f0f0f;
-  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='34'><rect x='7' y='8' width='12' height='18' rx='2' fill='%23262626'/></svg>");
+.film-reel-wrap { position: relative; background: #0d0b08; }
+.film-strip { display: flex; gap: 3px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0 3rem; cursor: grab; user-select: none; background: #0d0b08; align-items: flex-end; }
+.film-strip:active { cursor: grabbing; }
+.film-strip::-webkit-scrollbar { display: none; }
+/* Each frame: sprocket zone (::before) → image → sprocket zone (::after) */
+.gallery-item {
+  flex: 0 0 230px; height: 400px; scroll-snap-align: start;
+  border-radius: 0; background-color: #0d0b08; transform-style: flat;
+}
+.gallery-item::before,
+.gallery-item::after {
+  content: '';
+  display: block;
+  flex-shrink: 0;
+  height: 36px;
+  background-color: #0d0b08;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='36'><rect x='8' y='9' width='14' height='18' rx='3' fill='%23b88838'/><rect x='9' y='10' width='12' height='5' rx='1.5' fill='%23d4a84c' opacity='0.45'/></svg>");
   background-repeat: repeat-x;
   background-position: left center;
 }
-.film-strip { display: flex; gap: 4px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 0 2.5rem; cursor: grab; user-select: none; background: #0f0f0f; align-items: center; }
-.film-strip:active { cursor: grabbing; }
-.film-strip::-webkit-scrollbar { display: none; }
-.gallery-item { flex: 0 0 240px; height: 340px; scroll-snap-align: start; border-radius: 0; transition: opacity .3s; transform-style: flat; }
-.gallery-item.tall { height: 430px; }
-.gallery-item.wide { flex: 0 0 400px; height: 280px; }
+.gallery-item.tall { height: 490px; }
+.gallery-item.wide { flex: 0 0 420px; height: 360px; }
 .film-frame-num {
-  position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
-  font-family: var(--sans); font-size: .42rem; letter-spacing: .22em;
-  color: rgba(255,255,255,.28); font-weight: 300; white-space: nowrap; pointer-events: none;
+  position: absolute; bottom: 11px; left: 10px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: .55rem; letter-spacing: .06em;
+  color: rgba(184,136,56,.8); font-weight: 700;
+  white-space: nowrap; pointer-events: none;
 }
-.film-drag-hint { text-align: center; padding: .75rem 0; font-family: var(--sans); font-weight: 200; font-size: .52rem; letter-spacing: .32em; text-transform: uppercase; color: rgba(255,255,255,.22); background: #0f0f0f; }
+.film-drag-hint { text-align: center; padding: .85rem 0; font-family: 'Courier New', Courier, monospace; font-size: .48rem; letter-spacing: .22em; text-transform: uppercase; color: rgba(184,136,56,.45); background: #0d0b08; }
 
 /* ── LIGHTBOX ─────────────────────────────────────────────── */
 .lightbox { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .35s ease; pointer-events: none; }
@@ -645,9 +656,9 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
 }
 @media (max-width: 600px) {
   .hero-title { flex-direction: column; gap: .05em; align-items: center; }
-  .gallery-item { flex: 0 0 190px; height: 270px; }
-  .gallery-item.tall { height: 340px; }
-  .gallery-item.wide { flex: 0 0 280px; height: 220px; }
+  .gallery-item { flex: 0 0 170px; height: 300px; }
+  .gallery-item.tall { height: 380px; }
+  .gallery-item.wide { flex: 0 0 280px; height: 260px; }
   .nav-links { display: none; }
   .hero-countdown { gap: .4rem; }
   .nav-monogram { cursor: pointer; }
@@ -753,11 +764,13 @@ body.night .section-gallery {
 }
 body.night .section-gallery .section-header h2 { color: #D4D9D2; }
 body.night .section-gallery .chapter-label     { color: #FCF1A5; }
-/* Film reel — night mode */
-body.night .film-reel-wrap { background: #0a0a0a; }
-body.night .film-sprocket-track { background-color: #0a0a0a; }
-body.night .film-strip { background: #0a0a0a; }
-body.night .film-drag-hint { background: #0a0a0a; color: rgba(212,217,210,.22); }
+/* Film reel — night mode (slightly cooler dark tone) */
+body.night .film-reel-wrap,
+body.night .film-strip { background: #08080a; }
+body.night .gallery-item,
+body.night .gallery-item::before,
+body.night .gallery-item::after { background-color: #08080a; }
+body.night .film-drag-hint { background: #08080a; }
 
 /* ── Details — owns BOTH transitions                        */
 /*    26% fade in/out for smooth gradients.                 */
@@ -998,19 +1011,17 @@ body.night .footer-accent span:nth-child(2) { background: #3D3356; }
     </div>
   </div>
   <div class="film-reel-wrap">
-    <div class="film-sprocket-track"></div>
     <div class="film-strip" id="galleryStrip">
-      <div class="gallery-item tall g1"><div class="gallery-shine"></div><span class="film-frame-num">001</span></div>
-      <div class="gallery-item g2"><div class="gallery-shine"></div><span class="film-frame-num">002</span></div>
-      <div class="gallery-item g3"><div class="gallery-shine"></div><span class="film-frame-num">003</span></div>
-      <div class="gallery-item tall g4"><div class="gallery-shine"></div><span class="film-frame-num">004</span></div>
-      <div class="gallery-item wide g5"><div class="gallery-shine"></div><span class="film-frame-num">005</span></div>
-      <div class="gallery-item g6"><div class="gallery-shine"></div><span class="film-frame-num">006</span></div>
-      <div class="gallery-item g1"><div class="gallery-shine"></div><span class="film-frame-num">007</span></div>
-      <div class="gallery-item tall g2"><div class="gallery-shine"></div><span class="film-frame-num">008</span></div>
+      <div class="gallery-item tall"><div class="film-image-area g1"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 001</span></div>
+      <div class="gallery-item"><div class="film-image-area g2"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 002</span></div>
+      <div class="gallery-item"><div class="film-image-area g3"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 003</span></div>
+      <div class="gallery-item tall"><div class="film-image-area g4"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 004</span></div>
+      <div class="gallery-item wide"><div class="film-image-area g5"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 005</span></div>
+      <div class="gallery-item"><div class="film-image-area g6"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 006</span></div>
+      <div class="gallery-item"><div class="film-image-area g1"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 007</span></div>
+      <div class="gallery-item tall"><div class="film-image-area g2"><div class="gallery-shine"></div></div><span class="film-frame-num">▲ 008</span></div>
     </div>
-    <div class="film-sprocket-track"></div>
-    <p class="film-drag-hint">◀ roll the film ▶</p>
+    <p class="film-drag-hint">◀ &nbsp; roll the film &nbsp; ▶</p>
   </div>
 </section>
 
@@ -1364,7 +1375,8 @@ document.querySelectorAll('.gallery-item').forEach(card => {
 const lb = document.getElementById('lb');
 document.querySelectorAll('.gallery-item').forEach(item => {
   item.addEventListener('click', () => {
-    document.getElementById('lbBox').style.background = getComputedStyle(item).background;
+    const imgArea = item.querySelector('.film-image-area') || item;
+    document.getElementById('lbBox').style.background = getComputedStyle(imgArea).background;
     lb.classList.add('open');
   });
 });
