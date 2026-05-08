@@ -328,6 +328,10 @@ a { text-decoration: none; color: inherit; }
   font-size: .82rem; font-style: italic;
   opacity: .65; margin-top: 1.8rem;
 }
+/* Touch devices can't hover — show photos in full colour */
+@media (hover: none) {
+  .si-1, .si-2 { filter: none !important; }
+}
 
 
 /* ── GALLERY ─── eucalyptus bridge in, pure lavender out     */
