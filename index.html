@@ -336,7 +336,8 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
   padding: 4.5rem 0;
 }
 /* Image fills viewport height so it feels as tall as the text */
-.story-grid-wide .story-img {
+.story-grid-wide .story-img,
+.story-grid-wide-r .story-img {
   height: calc(100vh - 14rem);
   min-height: 400px;
   aspect-ratio: unset;
@@ -673,12 +674,10 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
   .details-accordion { margin-top: 2.5rem; }
   .form-row { flex-direction: column; }
   .rsvp-btns { flex-direction: column; }
-  /* Night mobile: remove the sticky block's padding so it doesn't
-     expose the section gradient as a weird colour — keeps sticky behaviour */
-  body.night .story-grid-wide > .story-block:first-child,
-  body.night .story-grid-wide-r > .story-block:last-child {
-    padding: 0;
-  }
+  /* Night mobile: story-text needs a solid bg so it covers the sticky photo
+     as it scrolls over it — on desktop the bg is transparent so the
+     section gradient shows through */
+  body.night .story-text { background: #2A3A2F; }
 }
 @media (max-width: 600px) {
   .hero-title { flex-direction: column; gap: .05em; align-items: center; }
@@ -770,7 +769,7 @@ body.night .section-story {
     #EBDAC1 100%
   );
 }
-body.night .story-text    { background: #2A3A2F; }
+body.night .story-text    { background: transparent; }
 body.night .si-1 {
   filter: grayscale(100%) sepia(40%) hue-rotate(105deg) saturate(50%) brightness(0.82);
 }
