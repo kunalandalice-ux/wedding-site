@@ -364,10 +364,9 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
 .section-gallery {
   padding: 7rem 0 7rem;
   background: linear-gradient(to bottom,
-    var(--euc)      0%,
-    var(--knot)     9%,
-    var(--knot)    91%,
-    var(--lav-wash) 100%
+    var(--euc)  0%,
+    var(--knot) 9%,
+    var(--knot) 100%
   );
 }
 .section-gallery .container { padding: 0 2rem; }
@@ -394,10 +393,10 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
 .section-details {
   padding: 8rem 2rem 9rem;
   background: linear-gradient(to bottom,
-    var(--lav-wash)  0%,
-    var(--oat)      24%,
-    var(--oat)      76%,
-    var(--knot)    100%
+    var(--knot)     0%,
+    var(--oat)     24%,
+    var(--oat)     76%,
+    var(--lav-wash) 100%
   );
 }
 /* Heading sits on the lavender-to-sandy gradient — soft plum reads well on both */
@@ -585,8 +584,7 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
 .section-travel {
   padding: 8rem 2rem 9rem;
   background: linear-gradient(to bottom,
-    var(--knot)     0%,
-    var(--lav-wash) 9%,
+    var(--lav-wash) 0%,
     var(--lav-wash) 86%,
     var(--estate)   100%
   );
@@ -780,14 +778,14 @@ body.night .section-story .chapter-label { color: #FCF1A5; }
 body.night .section-gallery {
   background: linear-gradient(to bottom,
     #2A3A2F  0%,
-    #3D3356  6%,
-    #EBDAC1 26%,
-    #EBDAC1 74%,
-    #3D3356 100%
+    #3D3356  8%,
+    #EBDAC1 25%,
+    #EBDAC1 100%
   );
 }
-body.night .section-gallery .section-header h2 { color: #302A3D; }
-body.night .section-gallery .chapter-label     { color: #5E3A6A; }
+/* Header sits in the dark zone — keep light text */
+body.night .section-gallery .section-header h2 { color: #D4D9D2; }
+body.night .section-gallery .chapter-label     { color: #FCF1A5; }
 /* Polaroids — night mode */
 body.night .polaroid-caption { color: #7a6048; }
 
@@ -797,14 +795,16 @@ body.night .polaroid-caption { color: #7a6048; }
 /*    mid-transition tone — far better than light text was  */
 body.night .section-details {
   background: linear-gradient(to bottom,
-    #3D3356  0%,
+    #EBDAC1  0%,
+    #EBDAC1 15%,
+    #3D3356 40%,
     #3D3356 86%,
     #5C6652 100%
   );
 }
-/* Light text on deep plum background */
-body.night .section-details .section-header h2 { color: #D4D9D2; }
-body.night .section-details .chapter-label     { color: #FCF1A5; }
+/* Header sits in the cream zone — dark text */
+body.night .section-details .section-header h2 { color: #302A3D; }
+body.night .section-details .chapter-label     { color: #5E3A6A; }
 /* Cards — invitation-on-stone feel */
 body.night .detail-card {
   background: rgba(255,255,255,.88);
