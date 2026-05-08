@@ -61,8 +61,9 @@ a { text-decoration: none; color: inherit; }
   box-shadow: 0 8px 32px rgba(0,0,0,.12);
   opacity: 0; transform: translateY(-8px);
   transition: opacity .3s ease, transform .3s ease;
+  pointer-events: none;
 }
-#mobileMenu.open { opacity: 1; transform: translateY(0); }
+#mobileMenu.open { opacity: 1; transform: translateY(0); pointer-events: auto; }
 #mobileMenu ul { list-style: none; padding: 0; margin: 0; }
 #mobileMenu ul li a {
   display: block; padding: .85rem 2rem;
@@ -889,9 +890,25 @@ body.night .footer-accent span:nth-child(2) { background: #3D3356; }
 /* ── Mobile night-mode override ───────────────────────────
    MUST appear after the global night CSS above so it wins.
    On mobile, story-text needs a solid bg so text stays
-   readable over the sticky photo as it scrolls beneath. ── */
+   readable over the sticky photo as it scrolls beneath.
+   The section background is forced solid and the gradient
+   is handled by an ::after block so the solid story-text
+   boxes don't swallow the section's background gradient. ── */
 @media (max-width: 900px) {
   body.night .story-text { background: #2A3A2F; }
+
+  /* Override gradient → solid; let ::after handle the transition */
+  body.night .section-story {
+    background: #2A3A2F;
+    padding-bottom: 0;
+  }
+  /* Explicit 5 rem dark→cream ramp right at the section's end */
+  body.night .section-story::after {
+    content: '';
+    display: block;
+    height: 5rem;
+    background: linear-gradient(to bottom, #2A3A2F, #EBDAC1);
+  }
 }
 </style>
 </head>
