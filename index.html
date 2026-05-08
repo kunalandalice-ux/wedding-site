@@ -328,9 +328,9 @@ a { text-decoration: none; color: inherit; }
   font-size: .82rem; font-style: italic;
   opacity: .65; margin-top: 1.8rem;
 }
-/* Touch devices can't hover — show photos in full colour */
-@media (hover: none) {
-  .si-1, .si-2 { filter: none !important; }
+/* Tap-to-reveal colour on touch devices */
+.si-1.revealed, .si-2.revealed {
+  filter: grayscale(0%) sepia(0%) hue-rotate(0deg) saturate(100%) brightness(1) !important;
 }
 
 
@@ -1248,6 +1248,13 @@ function showThanks(h, m) {
 }
 function rsvpYes(e) { e.preventDefault(); showThanks('Thank you! 🎉', "We can't wait to celebrate with you in Lisbon."); }
 function rsvpNo()   { showThanks("We'll miss you 💛", 'Thank you for letting us know.'); }
+
+// ── STORY PHOTOS — tap to reveal colour on touch devices ──
+if (window.matchMedia('(hover: none)').matches) {
+  document.querySelectorAll('.si-1, .si-2').forEach(img => {
+    img.addEventListener('click', () => img.classList.toggle('revealed'));
+  });
+}
 
 // ── GALLERY — drag to scroll ──────────────────────────────
 const strip = document.getElementById('galleryStrip');
