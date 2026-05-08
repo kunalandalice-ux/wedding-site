@@ -612,13 +612,14 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
 
 /* Each card uses the real polaroid PNG as its visual */
 .gallery-item {
-  /* Zoom into just the card, cropping the grey canvas edge */
-  background: url('polaroid.png') center / 134% 112% no-repeat;
+  /* Canvas is 2814×1536. Card is ~42% wide, ~88% tall, centred.
+     Zoom: 100/42 = 238% wide, 100/88 = 114% tall */
+  background: url('polaroid.png') center / 238% 114% no-repeat;
   width: 185px;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 9 / 10;   /* card's own portrait proportions */
   padding: 0;
   border-radius: 0;
-  box-shadow: none; /* shadow baked into the PNG */
+  box-shadow: none;
   cursor: pointer;
   transform: rotate(var(--r, 0deg)) translateY(var(--ty, 0px));
   transition: transform .4s cubic-bezier(0.34,1.56,0.64,1), z-index 0s;
@@ -631,7 +632,7 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
 
 /* Photo sits inside the dark window of the polaroid template */
 .film-image-area {
-  top: 11%; left: 9%; right: 9%; bottom: 24%;
+  top: 9%; left: 8%; right: 8%; bottom: 25%;
   z-index: 0;
 }
 
@@ -652,9 +653,9 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
 .lightbox { position: fixed; inset: 0; z-index: 999; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .35s ease; pointer-events: none; }
 .lightbox.open { opacity: 1; pointer-events: auto; }
 .lb-bg { position: absolute; inset: 0; background: rgba(6,12,5,.94); cursor: pointer; }
-.lb-box { position: relative; z-index: 1; background: url('polaroid.png') center / 134% 112% no-repeat; width: min(80vmin, 400px); aspect-ratio: 3/4; box-shadow: 0 40px 80px rgba(0,0,0,.65); transform: scale(.88) rotate(-4deg); transition: transform .5s cubic-bezier(0.34,1.56,0.64,1); }
+.lb-box { position: relative; z-index: 1; background: url('polaroid.png') center / 238% 114% no-repeat; width: min(75vmin, 380px); aspect-ratio: 9/10; box-shadow: 0 40px 80px rgba(0,0,0,.65); transform: scale(.88) rotate(-4deg); transition: transform .5s cubic-bezier(0.34,1.56,0.64,1); }
 .lightbox.open .lb-box { transform: scale(1) rotate(0deg); }
-.lb-photo { position: absolute; top: 11%; left: 9%; right: 9%; bottom: 24%; background-size: cover; background-position: center; }
+.lb-photo { position: absolute; top: 9%; left: 8%; right: 8%; bottom: 25%; background-size: cover; background-position: center; }
 .lb-caption-text { position: absolute; bottom: 8%; left: 0; right: 0; text-align: center; font-family: 'Caveat', cursive; font-size: 1.6rem; color: #8a7058; }
 .lb-close { position: absolute; top: 1.2rem; right: 1.2rem; z-index: 2; background: none; border: 1px solid rgba(255,255,255,.25); color: rgba(255,255,255,.8); font-size: .95rem; width: 2.4rem; height: 2.4rem; border-radius: 50%; cursor: pointer; transition: all .2s; }
 .lb-close:hover { background: rgba(255,255,255,.1); }
