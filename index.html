@@ -756,9 +756,15 @@ body.night .section-quote {
 body.night .big-quote      { color: #D4D9D2; }
 body.night .big-quote cite { color: #FCF1A5; }
 
-/* ── Story — #2A3A2F Pine Shadow (deep forest at night) ─── */
-body.night .section-story { background: #2A3A2F; }
-body.night .story-text    { background: #2A3A2F; }
+/* ── Story — fades to cream at the bottom so Gallery opens already-warm */
+body.night .section-story {
+  background: linear-gradient(to bottom,
+    #2A3A2F  0%,
+    #2A3A2F 80%,
+    #EBDAC1 100%
+  );
+}
+body.night .story-text    { background: transparent; }
 body.night .si-1 {
   filter: grayscale(100%) sepia(40%) hue-rotate(105deg) saturate(50%) brightness(0.82);
 }
@@ -777,16 +783,14 @@ body.night .section-story .chapter-label { color: #FCF1A5; }
 /*    Ends pure Moody Plum — Details owns the fade-in      */
 body.night .section-gallery {
   background: linear-gradient(to bottom,
-    #2A3A2F  0%,
-    #2A3A2F 22%,
-    #EBDAC1 38%,
+    #EBDAC1  0%,
     #EBDAC1 74%,
     #3D3356 100%
   );
 }
-/* Header sits in the flat dark zone — light text */
-body.night .section-gallery .section-header h2 { color: #D4D9D2; }
-body.night .section-gallery .chapter-label     { color: #FCF1A5; }
+/* Header on cream — dark text */
+body.night .section-gallery .section-header h2 { color: #302A3D; }
+body.night .section-gallery .chapter-label     { color: #5E3A6A; }
 /* Polaroids — night mode */
 body.night .polaroid-caption { color: #7a6048; }
 
