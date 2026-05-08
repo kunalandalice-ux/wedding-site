@@ -885,6 +885,14 @@ body.night .site-footer p  { color: #403F41; }
 body.night .footer-small   { color: rgba(64,63,65,.4); }
 body.night .footer-accent span              { background: #5C6652; }
 body.night .footer-accent span:nth-child(2) { background: #3D3356; }
+
+/* ── Mobile night-mode override ───────────────────────────
+   MUST appear after the global night CSS above so it wins.
+   On mobile, story-text needs a solid bg so text stays
+   readable over the sticky photo as it scrolls beneath. ── */
+@media (max-width: 900px) {
+  body.night .story-text { background: #2A3A2F; }
+}
 </style>
 </head>
 <body>
@@ -1360,23 +1368,56 @@ document.addEventListener('click', (e) => {
 // ── STORY PHOTOS — tap to reveal colour on touch devices ──
 if (window.matchMedia('(hover: none)').matches) {
   document.querySelectorAll('.si-1, .si-2').forEach(img => {
-    img.addEventListener('click', () => img.classList.toggle('revealed'));
+    // Use touchend + preventDefault to stop iOS from triggering a
+    // ghost scroll on sticky elements after the tap.
+    img.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      img.classList.toggle('revealed');
+    }, { passive: false });
   });
+  // Tap anywhere outside the photos to dismiss the colour reveal.
+  // passive: true so we never block scrolling while swiping.
+  document.addEventListener('touchend', (e) => {
+    if (!e.target.closest('.si-1, .si-2')) {
+      document.querySelectorAll('.si-1.revealed, .si-2.revealed')
+        .forEach(img => img.classList.remove('revealed'));
+    }
+  }, { passive: true });
 }
 
 
 // ── LIGHTBOX — opens as enlarged polaroid ─────────────────
 const lb = document.getElementById('lb');
+let _lbScrollY = 0;
+
+function openLb() {
+  // Lock body scroll so iOS doesn't jump when the fixed overlay
+  // appears or disappears (classic iOS scroll restoration bug).
+  _lbScrollY = window.scrollY;
+  document.body.style.position = 'fixed';
+  document.body.style.top      = `-${_lbScrollY}px`;
+  document.body.style.width    = '100%';
+  lb.classList.add('open');
+}
+
+function closeLb() {
+  lb.classList.remove('open');
+  // Restore body to normal and scroll back to exact position.
+  document.body.style.position = '';
+  document.body.style.top      = '';
+  document.body.style.width    = '';
+  window.scrollTo({ top: _lbScrollY, behavior: 'instant' });
+}
+
 document.querySelectorAll('.gallery-item').forEach(item => {
   item.addEventListener('click', () => {
     const imgArea   = item.querySelector('.film-image-area') || item;
     const caption   = item.querySelector('.polaroid-caption')?.textContent || '';
     document.getElementById('lbPhoto').style.background = getComputedStyle(imgArea).background;
     document.getElementById('lbCaption').textContent    = caption;
-    lb.classList.add('open');
+    openLb();
   });
 });
-function closeLb() { lb.classList.remove('open'); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
 
 // ── NIGHT MODE ────────────────────────────────────────────────
