@@ -38,8 +38,8 @@
   --sans:   'Jost', 'Segoe UI', system-ui, -apple-system, sans-serif;
   --ease:   cubic-bezier(0.16, 1, 0.3, 1);
 }
-html { scroll-behavior: smooth; overflow-x: hidden; }
-body { background: var(--blush); color: var(--fshade); font-family: var(--sans); font-weight: 300; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+html { scroll-behavior: smooth; overflow-x: clip; }
+body { background: var(--blush); color: var(--fshade); font-family: var(--sans); font-weight: 300; overflow-x: clip; -webkit-font-smoothing: antialiased; }
 a { text-decoration: none; color: inherit; }
 
 /* ── WATERCOLOUR SVG FILTER ───────────────────────────────── */
@@ -778,12 +778,13 @@ body.night .section-story .chapter-label { color: #FCF1A5; }
 body.night .section-gallery {
   background: linear-gradient(to bottom,
     #2A3A2F  0%,
-    #EBDAC1 20%,
+    #2A3A2F 22%,
+    #EBDAC1 38%,
     #EBDAC1 74%,
     #3D3356 100%
   );
 }
-/* Header sits in dark zone at top — light text */
+/* Header sits in the flat dark zone — light text */
 body.night .section-gallery .section-header h2 { color: #D4D9D2; }
 body.night .section-gallery .chapter-label     { color: #FCF1A5; }
 /* Polaroids — night mode */
