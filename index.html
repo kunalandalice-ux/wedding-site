@@ -669,10 +669,33 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
   .story-grid { grid-template-columns: 1fr; }
   .story-text { padding: 3rem 2rem; }
   .story-block:nth-child(3) { order: 4; } .story-block:nth-child(4) { order: 3; }
+  /* Disable sticky on story photos — single-column layout doesn't need it
+     and the padding was leaking the section gradient as a weird colour */
+  .story-grid-wide > .story-block:first-child,
+  .story-grid-wide-r > .story-block:last-child {
+    position: static;
+    padding: 0;
+  }
   .travel-grid { grid-template-columns: 1fr; gap: 2.5rem; }
   .details-accordion { margin-top: 2.5rem; }
   .form-row { flex-direction: column; }
   .rsvp-btns { flex-direction: column; }
+  /* Night: story stays flat dark — gallery owns the dark→cream transition
+     so it always completes cleanly above the "Moments We Treasure" heading */
+  body.night .section-story {
+    background: #2A3A2F;
+  }
+  body.night .section-gallery {
+    background: linear-gradient(to bottom,
+      #2A3A2F  0%,
+      #2A3A2F 28%,
+      #EBDAC1 48%,
+      #EBDAC1 74%,
+      #3D3356 100%
+    );
+  }
+  body.night .section-gallery .section-header h2 { color: #D4D9D2; }
+  body.night .section-gallery .chapter-label     { color: #FCF1A5; }
 }
 @media (max-width: 600px) {
   .hero-title { flex-direction: column; gap: .05em; align-items: center; }
