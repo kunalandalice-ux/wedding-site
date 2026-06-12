@@ -664,6 +664,116 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
 .lb-close { position: absolute; top: 1.2rem; right: 1.2rem; z-index: 2; background: none; border: 1px solid rgba(255,255,255,.25); color: rgba(255,255,255,.8); font-size: .95rem; width: 2.4rem; height: 2.4rem; border-radius: 50%; cursor: pointer; transition: all .2s; }
 .lb-close:hover { background: rgba(255,255,255,.1); }
 
+/* ═══════════════════════════════════════════════════════════
+   ANIMATION SUITE — hero cascade, ambient particles, word
+   reveals, polaroid deal-in, countdown ticks, magnetic CTAs
+   ═══════════════════════════════════════════════════════════ */
+
+/* Nav links — sliding underline */
+.nav-links a { position: relative; }
+.nav-links a::after {
+  content: ''; position: absolute; left: 0; bottom: -5px;
+  height: 1px; width: 100%; background: currentColor;
+  transform: scaleX(0); transform-origin: right;
+  transition: transform .35s var(--ease);
+}
+.nav-links a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+/* Hero photo — slow Ken Burns drift */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-photo { animation: kenBurns 30s ease-in-out infinite alternate; will-change: transform; }
+}
+@keyframes kenBurns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.09) translateY(-1.5%); }
+}
+
+/* Hero names — letter-by-letter cascade (chars injected by JS) */
+.hn.split { animation: none; opacity: 1; }
+.hn .ch {
+  display: inline-block;
+  opacity: 0; transform: translateY(.6em) rotate(8deg);
+  animation: chIn 1s var(--ease) both;
+}
+@keyframes chIn { to { opacity: 1; transform: none; } }
+
+/* Ambient particle canvas — petals by day, fireflies by night */
+#ambientCanvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: 1; pointer-events: none;
+}
+
+/* Quote — word-by-word blur-in (spans injected by JS) */
+.qw {
+  display: inline-block;
+  opacity: 0; filter: blur(10px); transform: translateY(.35em);
+  transition: opacity .9s var(--ease), filter .9s var(--ease), transform .9s var(--ease);
+}
+.big-quote.revealed .qw { opacity: 1; filter: blur(0); transform: none; }
+
+/* Polaroids — dealt onto the table one by one */
+@media (prefers-reduced-motion: no-preference) {
+  .polaroid-table .gallery-item {
+    opacity: 0;
+    transform: rotate(calc(var(--r, 0deg) * 3)) translateY(90px) scale(.72);
+  }
+  .polaroid-table .gallery-item.dealt {
+    opacity: 1;
+    transform: rotate(var(--r, 0deg)) translateY(var(--ty, 0px));
+    transition: opacity .7s var(--ease), transform .85s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .polaroid-table .gallery-item.dealt:hover {
+    transform: rotate(0deg) translateY(-20px) scale(1.08);
+  }
+}
+
+/* Countdown — digit tick on change */
+.hcd-block span.tick { animation: cdTick .5s var(--ease); }
+@keyframes cdTick {
+  0%   { opacity: .1; transform: translateY(-.4em); }
+  100% { opacity: 1; transform: none; }
+}
+
+/* Accordion timeline — items cascade in when the card opens */
+.timeline-item { opacity: 0; transform: translateX(-16px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
+.detail-card.open .timeline-item { opacity: 1; transform: none; }
+.detail-card.open .timeline-item:nth-child(1) { transition-delay: .1s; }
+.detail-card.open .timeline-item:nth-child(2) { transition-delay: .2s; }
+.detail-card.open .timeline-item:nth-child(3) { transition-delay: .3s; }
+.detail-card.open .timeline-item:nth-child(4) { transition-delay: .4s; }
+.detail-card.open .timeline-item:nth-child(5) { transition-delay: .5s; }
+
+/* Magnetic buttons — springs back when the cursor leaves */
+.magnetic { transition: transform .5s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform; }
+
+/* Confetti canvas — RSVP celebration */
+#confettiCanvas {
+  position: fixed; inset: 0; width: 100vw; height: 100vh;
+  z-index: 998; pointer-events: none;
+}
+
+/* Scroll hint line — gentle pulse */
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-line { animation: scrollPulse 2.4s ease-in-out infinite; }
+}
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(0); opacity: 0; }
+  50%      { transform: scaleY(1); opacity: 1; }
+}
+
+/* Travel cards — staggered slide-in alongside the r-right block */
+.travel-list .travel-item { opacity: 0; transform: translateX(40px); transition: opacity .8s var(--ease), transform .8s var(--ease), box-shadow .35s; }
+.travel-list.revealed .travel-item { opacity: 1; transform: none; }
+.travel-list.revealed .travel-item:nth-child(1) { transition-delay: .1s, .1s, 0s; }
+.travel-list.revealed .travel-item:nth-child(2) { transition-delay: .25s, .25s, 0s; }
+.travel-list.revealed .travel-item:nth-child(3) { transition-delay: .4s, .4s, 0s; }
+.travel-list.revealed .travel-item:hover { transform: translateX(6px); transition-delay: 0s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .qw { opacity: 1; filter: none; transform: none; transition: none; }
+  .timeline-item, .travel-list .travel-item { transition: none; }
+}
+
 /* ── RESPONSIVE ───────────────────────────────────────────── */
 @media (max-width: 900px) {
   #nav { padding: 1.1rem 1.5rem; } #nav.scrolled { padding: .8rem 1.5rem; }
@@ -964,6 +1074,7 @@ body.night .footer-accent span:nth-child(2) { background: #3D3356; }
     <img src="venue.png" class="hero-photo" alt="" onerror="this.style.display='none'" />
   </div>
   <div class="hero-overlay"></div>
+  <canvas id="ambientCanvas" aria-hidden="true"></canvas>
   <p class="hero-pre">We're getting married</p>
   <div class="hero-content">
     <h1 class="hero-title">
@@ -1330,16 +1441,28 @@ document.querySelectorAll('.story-text').forEach((block, i) => {
   if (h) h.style.transitionDelay = '.15s';
 });
 
-// ── COUNTDOWN ────────────────────────────────────────────
+// ── COUNTDOWN — digits tick-animate on change ────────────
+const REDUCED_MOTION = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const target = new Date('2027-09-01T16:00:00');
 (function tick() {
   const d = target - Date.now();
   if (d < 0) return;
   const pad = n => String(Math.floor(n)).padStart(2,'0');
-  document.getElementById('cdDays').textContent  = pad(d / 86400000);
-  document.getElementById('cdHours').textContent = pad((d % 86400000) / 3600000);
-  document.getElementById('cdMins').textContent  = pad((d % 3600000)  / 60000);
-  document.getElementById('cdSecs').textContent  = pad((d % 60000)    / 1000);
+  const set = (id, val) => {
+    const el = document.getElementById(id);
+    if (el.textContent !== val) {
+      el.textContent = val;
+      if (!REDUCED_MOTION) {
+        el.classList.remove('tick');
+        void el.offsetWidth; // restart the animation
+        el.classList.add('tick');
+      }
+    }
+  };
+  set('cdDays',  pad(d / 86400000));
+  set('cdHours', pad((d % 86400000) / 3600000));
+  set('cdMins',  pad((d % 3600000)  / 60000));
+  set('cdSecs',  pad((d % 60000)    / 1000));
   setTimeout(tick, 1000);
 })();
 
@@ -1350,7 +1473,42 @@ function showThanks(h, m) {
   document.getElementById('thanksMsg').textContent   = m;
   document.getElementById('rsvpThanks').style.display = 'block';
 }
-function rsvpYes(e) { e.preventDefault(); showThanks('Thank you! 🎉', "We can't wait to celebrate with you in Lisbon."); }
+function rsvpYes(e) { e.preventDefault(); showThanks('Thank you! 🎉', "We can't wait to celebrate with you in Lisbon."); celebrate(); }
+
+// ── CONFETTI — petals & gold burst on "Joyfully Attend" ──
+function celebrate() {
+  if (REDUCED_MOTION || document.getElementById('confettiCanvas')) return;
+  const c = document.createElement('canvas');
+  c.id = 'confettiCanvas';
+  document.body.appendChild(c);
+  const ctx = c.getContext('2d');
+  c.width = innerWidth; c.height = innerHeight;
+  const colors = ['#BA7B6B', '#D1C7E0', '#A3AD91', '#FCF1A5', '#EBDAC1', '#ffffff'];
+  const parts = Array.from({ length: 150 }, () => ({
+    x: innerWidth / 2, y: innerHeight * 0.55,
+    vx: (Math.random() - .5) * 15,
+    vy: -Math.random() * 14 - 3,
+    s: 4 + Math.random() * 5,
+    rot: Math.random() * Math.PI * 2,
+    vr: (Math.random() - .5) * .3,
+    c: colors[Math.floor(Math.random() * colors.length)],
+    petal: Math.random() < .45
+  }));
+  let frames = 0;
+  (function anim() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    ctx.globalAlpha = Math.max(0, 1 - frames / 160);
+    parts.forEach(p => {
+      p.vy += 0.25; p.x += p.vx; p.y += p.vy; p.vx *= 0.99; p.rot += p.vr;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
+      ctx.fillStyle = p.c;
+      if (p.petal) { ctx.beginPath(); ctx.ellipse(0, 0, p.s, p.s * .55, 0, 0, Math.PI * 2); ctx.fill(); }
+      else ctx.fillRect(-p.s / 2, -p.s / 2, p.s, p.s * .6);
+      ctx.restore();
+    });
+    if (++frames < 170) requestAnimationFrame(anim); else c.remove();
+  })();
+}
 function rsvpNo()   { showThanks("We'll miss you 💛", 'Thank you for letting us know.'); }
 
 // ── MOBILE MENU ───────────────────────────────────────────
@@ -1497,12 +1655,256 @@ document.querySelectorAll('.accordion-trigger').forEach(trigger => {
   });
 });
 
+// ═══════════════════════════════════════════════════════════
+// ANIMATION SUITE
+// ═══════════════════════════════════════════════════════════
+
+// ── HERO NAMES — letter-by-letter cascade ─────────────────
+if (!REDUCED_MOTION) {
+  document.querySelectorAll('.hn').forEach((el, w) => {
+    const text = el.textContent;
+    el.textContent = '';
+    el.classList.add('split');
+    [...text].forEach((ch, i) => {
+      const s = document.createElement('span');
+      s.className = 'ch';
+      s.textContent = ch;
+      s.style.animationDelay = (0.45 + w * 0.22 + i * 0.05) + 's';
+      el.appendChild(s);
+    });
+  });
+}
+
+// ── HERO — content drifts away & fades as you scroll ──────
+(function () {
+  if (REDUCED_MOTION) return;
+  const content = document.querySelector('.hero-content');
+  const pre     = document.querySelector('.hero-pre');
+  const hint    = document.querySelector('.scroll-hint');
+  // Entrance animations use fill:both, which pins opacity — clear
+  // them once finished so the scroll-linked inline styles can win.
+  [pre, hint].forEach(el => el && el.addEventListener('animationend', () => { el.style.animation = 'none'; }));
+  let queued = false;
+  function update() {
+    queued = false;
+    const p = Math.min(scrollY / innerHeight, 1);
+    content.style.opacity   = Math.max(0, 1 - p * 1.15);
+    content.style.transform = `translateY(${p * 70}px) scale(${1 - p * 0.06})`;
+    if (pre)  pre.style.opacity  = Math.max(0, 1 - p * 2.2);
+    if (hint) hint.style.opacity = Math.max(0, 1 - p * 3);
+  }
+  addEventListener('scroll', () => {
+    if (!queued) { queued = true; requestAnimationFrame(update); }
+  }, { passive: true });
+})();
+
+// ── QUOTE — word-by-word blur-in ──────────────────────────
+(function () {
+  const q = document.querySelector('.big-quote');
+  if (!q || REDUCED_MOTION) return;
+  const cite = q.querySelector('cite');
+  const words = q.firstChild.textContent.trim().split(/\s+/);
+  q.firstChild.remove();
+  const frag = document.createDocumentFragment();
+  words.forEach((w, i) => {
+    const s = document.createElement('span');
+    s.className = 'qw';
+    s.textContent = w;
+    s.style.transitionDelay = (i * 0.06) + 's';
+    frag.appendChild(s);
+    frag.appendChild(document.createTextNode(' '));
+  });
+  q.insertBefore(frag, cite);
+})();
+
+// ── SECTION HEADINGS — word-mask rise reveal ──────────────
+if (!REDUCED_MOTION) {
+  document.querySelectorAll('.section-header h2').forEach(h => {
+    const words = h.textContent.trim().split(/\s+/);
+    h.textContent = '';
+    words.forEach((w, i) => {
+      const mask  = document.createElement('span');
+      mask.className = 'wm';
+      const inner = document.createElement('span');
+      inner.className = 'wm-inner';
+      inner.textContent = w;
+      inner.style.transitionDelay = (0.1 + i * 0.09) + 's';
+      mask.appendChild(inner);
+      h.appendChild(mask);
+      h.appendChild(document.createTextNode(' '));
+    });
+  });
+}
+
+// ── POLAROIDS — dealt onto the table one by one ───────────
+(function () {
+  const items = [...document.querySelectorAll('.polaroid-table .gallery-item')];
+  if (!items.length) return;
+  if (REDUCED_MOTION) { items.forEach(i => i.classList.add('dealt')); return; }
+  const io = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      setTimeout(() => e.target.classList.add('dealt'), (items.indexOf(e.target) % 8) * 110);
+      obs.unobserve(e.target);
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -30px 0px' });
+  items.forEach(i => io.observe(i));
+})();
+
+// ── AMBIENT PARTICLES — petals by day, fireflies by night ─
+(function () {
+  const canvas = document.getElementById('ambientCanvas');
+  if (!canvas) return;
+  if (REDUCED_MOTION) { canvas.remove(); return; }
+  const ctx  = canvas.getContext('2d');
+  const hero = document.getElementById('hero');
+  let W = 0, H = 0, running = false, visible = false, raf = null, t = 0;
+
+  function resize() {
+    W = canvas.width  = hero.clientWidth;
+    H = canvas.height = hero.clientHeight;
+  }
+  resize();
+  addEventListener('resize', resize);
+
+  const PETAL_TINTS = ['253,238,220', '212,214,185', '226,186,170', '209,199,224'];
+  const petals = Array.from({ length: 26 }, () => newPetal(true));
+  const flies  = Array.from({ length: 16 }, () => newFly());
+  const stars  = Array.from({ length: 80 }, () => ({
+    x: Math.random(), y: Math.random() * 0.65,
+    r: 0.3 + Math.random() * 1.2,
+    tw: Math.random() * Math.PI * 2,
+    sp: 0.4 + Math.random() * 1.4
+  }));
+  let shooting = null, shootIn = 240;
+
+  function newPetal(anywhere) {
+    return {
+      x: Math.random(), y: anywhere ? Math.random() : -0.04,
+      s: 4 + Math.random() * 6,
+      vy: 0.0006 + Math.random() * 0.0012,
+      sway: 0.25 + Math.random() * 0.6,
+      ph: Math.random() * Math.PI * 2,
+      rot: Math.random() * Math.PI * 2,
+      vr: (Math.random() - .5) * 0.02,
+      tint: PETAL_TINTS[Math.floor(Math.random() * PETAL_TINTS.length)],
+      a: 0.25 + Math.random() * 0.4
+    };
+  }
+  function newFly() {
+    return {
+      x: Math.random(), y: 0.25 + Math.random() * 0.7,
+      vx: 0, vy: 0,
+      ph: Math.random() * Math.PI * 2,
+      pulse: 1.2 + Math.random() * 1.6,
+      r: 1.2 + Math.random() * 1.6
+    };
+  }
+
+  function drawDay() {
+    petals.forEach(p => {
+      p.y += p.vy; p.ph += 0.012; p.rot += p.vr;
+      const px = (p.x + Math.sin(p.ph) * 0.018 * p.sway) * W;
+      const py = p.y * H;
+      if (p.y > 1.05) Object.assign(p, newPetal(false));
+      ctx.save();
+      ctx.translate(px, py);
+      ctx.rotate(p.rot + Math.sin(p.ph) * 0.4);
+      ctx.fillStyle = `rgba(${p.tint},${p.a})`;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, p.s, p.s * 0.45, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    });
+  }
+
+  function drawNight() {
+    // Twinkling stars
+    stars.forEach(s => {
+      const a = 0.25 + 0.55 * (0.5 + 0.5 * Math.sin(t * 0.02 * s.sp + s.tw));
+      ctx.fillStyle = `rgba(252,248,230,${a})`;
+      ctx.beginPath();
+      ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    // Occasional shooting star
+    if (!shooting && --shootIn <= 0) {
+      shooting = { x: Math.random() * 0.7 + 0.1, y: Math.random() * 0.25 + 0.05, life: 0 };
+      shootIn = 380 + Math.random() * 500;
+    }
+    if (shooting) {
+      shooting.life++;
+      const sx = (shooting.x + shooting.life * 0.006) * W;
+      const sy = (shooting.y + shooting.life * 0.003) * H;
+      const fade = Math.sin(Math.min(shooting.life / 40, 1) * Math.PI);
+      const grad = ctx.createLinearGradient(sx, sy, sx - 70, sy - 35);
+      grad.addColorStop(0, `rgba(255,252,235,${0.85 * fade})`);
+      grad.addColorStop(1, 'rgba(255,252,235,0)');
+      ctx.strokeStyle = grad; ctx.lineWidth = 1.4;
+      ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(sx - 70, sy - 35); ctx.stroke();
+      if (shooting.life > 40) shooting = null;
+    }
+    // Fireflies — wandering amber glows
+    flies.forEach(f => {
+      f.vx += (Math.random() - .5) * 0.00012;
+      f.vy += (Math.random() - .5) * 0.00010;
+      f.vx *= 0.97; f.vy *= 0.97;
+      f.x += f.vx; f.y += f.vy;
+      if (f.x < 0.02 || f.x > 0.98) f.vx *= -1;
+      if (f.y < 0.2  || f.y > 0.96) f.vy *= -1;
+      const glow = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * 0.03 * f.pulse + f.ph));
+      const fx = f.x * W, fy = f.y * H;
+      const grad = ctx.createRadialGradient(fx, fy, 0, fx, fy, f.r * 7);
+      grad.addColorStop(0, `rgba(252,241,165,${0.85 * glow})`);
+      grad.addColorStop(0.35, `rgba(252,241,165,${0.25 * glow})`);
+      grad.addColorStop(1, 'rgba(252,241,165,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath(); ctx.arc(fx, fy, f.r * 7, 0, Math.PI * 2); ctx.fill();
+    });
+  }
+
+  function frame() {
+    if (!running) return;
+    t++;
+    ctx.clearRect(0, 0, W, H);
+    if (document.body.classList.contains('night')) drawNight(); else drawDay();
+    raf = requestAnimationFrame(frame);
+  }
+  function setRunning(on) {
+    if (on === running) return;
+    running = on;
+    if (on) raf = requestAnimationFrame(frame);
+    else if (raf) cancelAnimationFrame(raf);
+  }
+
+  new IntersectionObserver(entries => {
+    visible = entries[0].isIntersecting;
+    setRunning(visible && !document.hidden);
+  }).observe(hero);
+  document.addEventListener('visibilitychange', () => setRunning(visible && !document.hidden));
+})();
+
+// ── MAGNETIC BUTTONS — drawn gently toward the cursor ─────
+if (!REDUCED_MOTION && matchMedia('(hover: hover)').matches) {
+  document.querySelectorAll('.hero-cta, .btn-yes, .btn-no, #nightToggle').forEach(btn => {
+    btn.classList.add('magnetic');
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height / 2);
+      btn.style.transform = `translate(${dx * 0.22}px, ${dy * 0.35}px)`;
+    });
+    btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+  });
+}
+
 // ── PREVIEW HELPER: ?at=N scrolls to N and reveals all elements ──
 (function() {
   const params = new URLSearchParams(window.location.search);
   const at = parseInt(params.get('at'), 10);
   if (!isNaN(at)) {
     document.querySelectorAll('.r-fade,.r-up,.r-left,.r-right,.r-zoom').forEach(el => el.classList.add('revealed'));
+    document.querySelectorAll('.polaroid-table .gallery-item').forEach(el => el.classList.add('dealt'));
     // Disable smooth scroll so jumps are instant
     document.documentElement.style.scrollBehavior = 'auto';
     document.body.style.scrollBehavior = 'auto';
