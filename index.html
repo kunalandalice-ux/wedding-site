@@ -123,8 +123,8 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
 .hero-bg {
   position: absolute;
   top: -12%; left: -6%; right: -6%; bottom: -12%;
-  /* Soft CSS blur gives a gentle painterly quality */
-  filter: blur(0.6px) saturate(0.88) brightness(0.95);
+  /* Gentle painterly colour grade (no blur — keeps the photo crisp) */
+  filter: saturate(0.88) brightness(0.95);
 
   background:
     /* Sky wash — top */
@@ -681,11 +681,11 @@ body.night #mobileMenu ul li a:hover { color: #FCF1A5; }
 
 /* Hero photo — slow Ken Burns drift */
 @media (prefers-reduced-motion: no-preference) {
-  .hero-photo { animation: kenBurns 30s ease-in-out infinite alternate; will-change: transform; }
+  .hero-photo { animation: kenBurns 30s ease-in-out infinite alternate; }
 }
 @keyframes kenBurns {
   from { transform: scale(1); }
-  to   { transform: scale(1.09) translateY(-1.5%); }
+  to   { transform: scale(1.05) translateY(-1%); }
 }
 
 /* Hero names — letter-by-letter cascade (chars injected by JS) */
